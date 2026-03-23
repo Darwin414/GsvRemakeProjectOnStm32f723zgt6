@@ -14,6 +14,8 @@ JlinkLog.txt
 *.iex
 *.uvguix.*
 *.dbgconf
+project/MDK-ARM/EventRecorderStub.scvd
+project/MDK-ARM/RTE/Device/**/*.dbgconf.base@*
 /.vscode
 *.hex
 !boot.hex
