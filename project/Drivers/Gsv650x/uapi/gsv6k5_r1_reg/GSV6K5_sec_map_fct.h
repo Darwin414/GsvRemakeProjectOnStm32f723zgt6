@@ -1,0 +1,23 @@
+#ifndef GSV6K5_SEC_MAP_FCT_H
+#define GSV6K5_SEC_MAP_FCT_H
+#define GSV6K5_SEC_get_CP_MODE(port, pval)                            AvHalI2cReadField8(GSV6K5_SEC_MAP_ADDR(port), 0x01, 0x7, 0, pval)
+#define GSV6K5_SEC_set_CP_MODE(port, val)                             AvHalI2cWriteField8(GSV6K5_SEC_MAP_ADDR(port), 0x01, 0x7, 0, val)
+#define GSV6K5_SEC_set_CP_SRC_SEL(port, val)                          AvHalI2cWriteField8(GSV6K5_SEC_MAP_ADDR(port), 0x04, 0x3, 0, val)
+#define GSV6K5_SEC_set_TX1_SRC_SEL(port, val)                         AvHalI2cWriteField8(GSV6K5_SEC_MAP_ADDR(port), 0x05, 0x3, 0, val)
+#define GSV6K5_SEC_get_TXPORT_B_SRC_SEL(port, pval)                   AvHalI2cReadField8(GSV6K5_SEC_MAP_ADDR(port), 0x09, 0x30, 4, pval)
+#define GSV6K5_SEC_set_TXPORT_B_SRC_SEL(port, val)                    AvHalI2cWriteField8(GSV6K5_SEC_MAP_ADDR(port), 0x09, 0x30, 4, val)
+#define GSV6K5_SEC_get_TXPORT_A_SRC_SEL(port, pval)                   AvHalI2cReadField8(GSV6K5_SEC_MAP_ADDR(port), 0x09, 0x3, 0, pval)
+#define GSV6K5_SEC_set_TXPORT_A_SRC_SEL(port, val)                    AvHalI2cWriteField8(GSV6K5_SEC_MAP_ADDR(port), 0x09, 0x3, 0, val)
+#define GSV6K5_SEC_get_TXPORT_D_SRC_SEL(port, pval)                   AvHalI2cReadField8(GSV6K5_SEC_MAP_ADDR(port), 0x0A, 0x30, 4, pval)
+#define GSV6K5_SEC_set_TXPORT_D_SRC_SEL(port, val)                    AvHalI2cWriteField8(GSV6K5_SEC_MAP_ADDR(port), 0x0A, 0x30, 4, val)
+#define GSV6K5_SEC_get_TXPORT_C_SRC_SEL(port, pval)                   AvHalI2cReadField8(GSV6K5_SEC_MAP_ADDR(port), 0x0A, 0x3, 0, pval)
+#define GSV6K5_SEC_set_TXPORT_C_SRC_SEL(port, val)                    AvHalI2cWriteField8(GSV6K5_SEC_MAP_ADDR(port), 0x0A, 0x3, 0, val)
+#define GSV6K5_SEC_set_MUX_MODE_N_VALUE(port, val)                    AvHalI2cWriteField32BE(GSV6K5_SEC_MAP_ADDR(port), 0x70, 0xF, 0xFF, 0, 3, val)
+#define GSV6K5_SEC_set_MUX_MODE_V_BLANK_PKT_INSERT_MARGIN(port, val)  AvHalI2cWriteField8(GSV6K5_SEC_MAP_ADDR(port), 0x78, 0xFF, 0, val)
+#define GSV6K5_SEC_get_MUX_MODE_BLANK_AFTER_DE_MAN(port, pval)        AvHalI2cReadField8(GSV6K5_SEC_MAP_ADDR(port), 0x7B, 0xFF, 0, pval)
+#define GSV6K5_SEC_set_MUX_MODE_BLANK_AFTER_DE_MAN(port, val)         AvHalI2cWriteField8(GSV6K5_SEC_MAP_ADDR(port), 0x7B, 0xFF, 0, val)
+#define GSV6K5_SEC_set_MUX_MODE_H_BLANK_PKT_INSERT_MARGIN(port, val)  AvHalI2cWriteField8(GSV6K5_SEC_MAP_ADDR(port), 0x7C, 0xF0, 4, val)
+#define GSV6K5_SEC_set_O2E_DEBUG_SEL(port, val)                       AvHalI2cWriteField8(GSV6K5_SEC_MAP_ADDR(port), 0xAA, 0xF, 0, val)
+#define GSV6K5_SEC_get_RB_O2E_STATE(port, pval)                       AvHalI2cReadField32BE(GSV6K5_SEC_MAP_ADDR(port), 0xAB, 0x3F, 0xFF, 0, 2, pval)
+#define GSV6K5_SEC_set_DPLL_PDN(port, val)                            AvHalI2cWriteField8(GSV6K5_SEC_MAP_ADDR(port), 0xC0, 0x80, 0x7, val)
+#endif

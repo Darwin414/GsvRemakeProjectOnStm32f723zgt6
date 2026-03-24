@@ -1,0 +1,33 @@
+#ifndef _GSV6K5_LIB_H
+#define _GSV6K5_LIB_H
+
+#include "GSV6K5_cfg.h"
+#include "GSV6K5_prim_map_fct.h"
+#include "GSV6K5_sec_map_fct.h"
+#include "GSV6K5_anaphy_map_fct.h"
+#include "GSV6K5_lane_map_fct.h"
+#include "GSV6K5_ag_map_fct.h"
+#include "GSV6K5_cp_map_fct.h"
+#include "GSV6K5_rxaud_map_fct.h"
+#include "GSV6K5_rxdig_map_fct.h"
+#include "GSV6K5_rxrpt_map_fct.h"
+#include "GSV6K5_rx2p2h_map_fct.h"
+#include "GSV6K5_rxhdcprb_map_fct.h"
+#include "GSV6K5_rxscdcrb_map_fct.h"
+#include "GSV6K5_rxscdc_map_fct.h"
+#include "GSV6K5_txdig_map_fct.h"
+#include "GSV6K5_txpkt_map_fct.h"
+#include "GSV6K5_txcec_map_fct.h"
+#include "GSV6K5_txphy_map_fct.h"
+#include "GSV6K5_tx2p2_map_fct.h"
+#include "GSV6K5_vsp_map_fct.h"
+#include "GSV6K5_int_map_fct.h"
+#include "GSV6K5_int2_map_fct.h"
+#include "GSV6K5_pll_map_fct.h"
+#include "GSV6K5_pll2_map_fct.h"
+#include "GSV6K5_pll3_map_fct.h"
+#include "GSV6K5_apll_map_fct.h"
+#include "GSV6K5_rxfrl_map_fct.h"
+#include "GSV6K5_txfrl_map_fct.h"
+
+#endif

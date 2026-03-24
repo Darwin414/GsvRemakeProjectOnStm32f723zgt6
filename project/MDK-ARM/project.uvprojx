@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H723xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;..\Middlewares\ThirdParty\SEGGER\RTT;..\Middlewares\ThirdParty\SEGGER\Config</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;..\Middlewares\ThirdParty\SEGGER\RTT;..\Middlewares\ThirdParty\SEGGER\Config;..\Drivers\Gsv650x\userapp\stm32f030c8_gsv6505_gsv_demo\apps;..\Drivers\Gsv650x\kapi;..\Drivers\Gsv650x\uapi;..\Drivers\Gsv650x\uapi\gsv6k5_r1_reg;..\Drivers\Gsv650x\userbsp\keil\stm32f070cb_gsv6505_gsv_demo</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -513,6 +513,111 @@
               <FileName>system_stm32h7xx.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/system_stm32h7xx.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Drivers/Gsv650x/GSV_apps</GroupName>
+          <Files>
+            <File>
+              <FileName>av_common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\userapp\stm32f030c8_gsv6505_gsv_demo\apps\av_common.c</FilePath>
+            </File>
+            <File>
+              <FileName>av_earc_manage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\userapp\stm32f030c8_gsv6505_gsv_demo\apps\av_earc_manage.c</FilePath>
+            </File>
+            <File>
+              <FileName>av_edid_manage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\userapp\stm32f030c8_gsv6505_gsv_demo\apps\av_edid_manage.c</FilePath>
+            </File>
+            <File>
+              <FileName>av_event_handler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\userapp\stm32f030c8_gsv6505_gsv_demo\apps\av_event_handler.c</FilePath>
+            </File>
+            <File>
+              <FileName>av_irda_cmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\userapp\stm32f030c8_gsv6505_gsv_demo\apps\av_irda_cmd.c</FilePath>
+            </File>
+            <File>
+              <FileName>av_key_cmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\userapp\stm32f030c8_gsv6505_gsv_demo\apps\av_key_cmd.c</FilePath>
+            </File>
+            <File>
+              <FileName>av_main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\userapp\stm32f030c8_gsv6505_gsv_demo\apps\av_main.c</FilePath>
+            </File>
+            <File>
+              <FileName>av_uart_cmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\userapp\stm32f030c8_gsv6505_gsv_demo\apps\av_uart_cmd.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Drivers/Gsv650x/GSV_kapi</GroupName>
+          <Files>
+            <File>
+              <FileName>kapi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\kapi\kapi.c</FilePath>
+            </File>
+            <File>
+              <FileName>kapi_debug_info.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\kapi\kapi_debug_info.c</FilePath>
+            </File>
+            <File>
+              <FileName>kernel_fsm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\kapi\kernel_fsm.c</FilePath>
+            </File>
+            <File>
+              <FileName>kernel_status_update.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\kapi\kernel_status_update.c</FilePath>
+            </File>
+            <File>
+              <FileName>uapi_function_mapper.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\kapi\uapi_function_mapper.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Drivers/Gsv650x/GSV_uapi</GroupName>
+          <Files>
+            <File>
+              <FileName>gsv6k5.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\uapi\gsv6k5.c</FilePath>
+            </File>
+            <File>
+              <FileName>hal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\uapi\hal.c</FilePath>
+            </File>
+            <File>
+              <FileName>uapi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\uapi\uapi.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Drivers/Gsv650x/GSV_userbsp</GroupName>
+          <Files>
+            <File>
+              <FileName>bsp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\Gsv650x\userbsp\keil\stm32f070cb_gsv6505_gsv_demo\bsp.c</FilePath>
             </File>
           </Files>
         </Group>

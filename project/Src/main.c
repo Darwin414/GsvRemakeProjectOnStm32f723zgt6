@@ -22,6 +22,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "SEGGER_RTT.h"
+#include "av_main.h"
+#include "hal.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -65,7 +67,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+  uint32 i;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -88,6 +90,12 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
   SEGGER_RTT_Init();
+  HAL_GPIO_WritePin(RESETB_GPIO_Port, RESETB_Pin, GPIO_PIN_SET);
+  for(i=0;i<0x3ffff;i++);
+  HAL_GPIO_WritePin(RESETB_GPIO_Port, RESETB_Pin, GPIO_PIN_RESET);
+  for(i=0;i<0x3ffff;i++);
+  HAL_GPIO_WritePin(RESETB_GPIO_Port, RESETB_Pin, GPIO_PIN_SET);
+  GsvMain();
   /* USER CODE END 2 */
 
   /* Infinite loop */

@@ -1,0 +1,23 @@
+#ifndef GSV6K5_RXFRL_MAP_FCT_H
+#define GSV6K5_RXFRL_MAP_FCT_H
+#define GSV6K5_RXFRL_set_FRL_RX_FFE_REQ_MODE(port, val)                 AvHalI2cWriteField8(GSV6K5_RXFRL_MAP_ADDR(port), 0x07, 0xC0, 6, val)
+#define GSV6K5_RXFRL_set_FRL_RX_FFE_REQ_MODE0_SEL(port, val)            AvHalI2cWriteField8(GSV6K5_RXFRL_MAP_ADDR(port), 0x07, 0x20, 0x5, val)
+#define GSV6K5_RXFRL_set_FRL_RX_TRAIN_DIS(port, val)                    AvHalI2cWriteField8(GSV6K5_RXFRL_MAP_ADDR(port), 0x07, 0x4, 0x2, val)
+#define GSV6K5_RXFRL_set_FRL_CED_DEBUG_MODE(port, val)                  AvHalI2cWriteField8(GSV6K5_RXFRL_MAP_ADDR(port), 0x1C, 0x80, 0x7, val)
+#define GSV6K5_RXFRL_get_FRL_CED_EN(port, pval)                         AvHalI2cReadField8(GSV6K5_RXFRL_MAP_ADDR(port), 0x1C, 0x10, 0x4, pval)
+#define GSV6K5_RXFRL_set_FRL_CED_EN(port, val)                          AvHalI2cWriteField8(GSV6K5_RXFRL_MAP_ADDR(port), 0x1C, 0x10, 0x4, val)
+#define GSV6K5_RXFRL_set_FRL_RX_RSCC_CLR(port, val)                     AvHalI2cWriteField8(GSV6K5_RXFRL_MAP_ADDR(port), 0x1C, 0x8, 0x3, val)
+#define GSV6K5_RXFRL_set_FRL_CED_ERR_CLR(port, val)                     AvHalI2cWriteField8(GSV6K5_RXFRL_MAP_ADDR(port), 0x1C, 0x4, 0x2, val)
+#define GSV6K5_RXFRL_get_RB_FRL_RX_TMDS_CLK_DIV4_EN(port, pval)         AvHalI2cReadField8(GSV6K5_RXFRL_MAP_ADDR(port), 0x22, 0x2, 0x1, pval)
+#define GSV6K5_RXFRL_set_FRL_RX_CLK_CALC_RST(port, val)                 AvHalI2cWriteField8(GSV6K5_RXFRL_MAP_ADDR(port), 0x22, 0x1, 0x0, val)
+#define GSV6K5_RXFRL_get_FRL_RX_CG_CODE_DELTA_MAN_EN(port, pval)        AvHalI2cReadField8(GSV6K5_RXFRL_MAP_ADDR(port), 0x25, 0x20, 0x5, pval)
+#define GSV6K5_RXFRL_set_FRL_RX_CG_CODE_DELTA_MAN_EN(port, val)         AvHalI2cWriteField8(GSV6K5_RXFRL_MAP_ADDR(port), 0x25, 0x20, 0x5, val)
+#define GSV6K5_RXFRL_set_FRL_RX_LINE_DET_DIS(port, val)                 AvHalI2cWriteField8(GSV6K5_RXFRL_MAP_ADDR(port), 0x42, 0x1, 0x0, val)
+#define GSV6K5_RXFRL_set_FRL_RX_CG_DEBUG_SEL(port, val)                 AvHalI2cWriteField8(GSV6K5_RXFRL_MAP_ADDR(port), 0x48, 0x7, 0, val)
+#define GSV6K5_RXFRL_get_RB_LANE_LOCKED(port, pval)                     AvHalI2cReadField8(GSV6K5_RXFRL_MAP_ADDR(port), 0x70, 0xF, 0, pval)
+#define GSV6K5_RXFRL_get_RB_FRL_RX_H_TOTAL_NUM(port, pval)              AvHalI2cReadField32BE(GSV6K5_RXFRL_MAP_ADDR(port), 0xE0, 0xFF, 0xFF, 0, 2, pval)
+#define GSV6K5_RXFRL_get_RB_FRL_RX_H_ACTIVE_NUM(port, pval)             AvHalI2cReadField32BE(GSV6K5_RXFRL_MAP_ADDR(port), 0xE2, 0xFF, 0xFF, 0, 2, pval)
+#define GSV6K5_RXFRL_get_RB_FRL_RX_H_SYNC_NUM(port, pval)               AvHalI2cReadField32BE(GSV6K5_RXFRL_MAP_ADDR(port), 0xE6, 0xFF, 0xFF, 0, 2, pval)
+#define GSV6K5_RXFRL_get_RB_FRL_RX_H_FRONT_NUM(port, pval)              AvHalI2cReadField32BE(GSV6K5_RXFRL_MAP_ADDR(port), 0xE8, 0xFF, 0xFF, 0, 2, pval)
+#define GSV6K5_RXFRL_get_RB_FRL_RX_H_BACK_NUM(port, pval)               AvHalI2cReadField32BE(GSV6K5_RXFRL_MAP_ADDR(port), 0xEA, 0xFF, 0xFF, 0, 2, pval)
+#endif
