@@ -81,7 +81,7 @@
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>0</RunUserProg1>
-            <RunUserProg2>0</RunUserProg2>
+            <RunUserProg2>1</RunUserProg2>
             <UserProg1Name></UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H723xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;..\Middlewares\ThirdParty\SEGGER\RTT;..\Middlewares\ThirdParty\SEGGER\Config;..\Drivers\Gsv650x\userapp\stm32f030c8_gsv6505_gsv_demo\apps;..\Drivers\Gsv650x\kapi;..\Drivers\Gsv650x\uapi;..\Drivers\Gsv650x\uapi\gsv6k5_r1_reg;..\Drivers\Gsv650x\userbsp\keil\stm32f070cb_gsv6505_gsv_demo</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../../Middlewares/ThirdParty/SEGGER/Config;../../Middlewares/ThirdParty/SEGGER/RTT;../Drivers/Gsv650x/userapp/stm32f030c8_gsv6505_gsv_demo/apps;../Drivers/Gsv650x/kapi;../Drivers/Gsv650x/uapi;../Drivers/Gsv650x/uapi/gsv6k5_r1_reg;../Drivers/Gsv650x/userbsp/keil/stm32f070cb_gsv6505_gsv_demo</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -627,12 +627,12 @@
             <File>
               <FileName>SEGGER_RTT.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Middlewares\ThirdParty\SEGGER\RTT\SEGGER_RTT.c</FilePath>
+              <FilePath>..\..\Middlewares\ThirdParty\SEGGER\RTT\SEGGER_RTT.c</FilePath>
             </File>
             <File>
               <FileName>SEGGER_RTT_printf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Middlewares\ThirdParty\SEGGER\RTT\SEGGER_RTT_printf.c</FilePath>
+              <FilePath>..\..\Middlewares\ThirdParty\SEGGER\RTT\SEGGER_RTT_printf.c</FilePath>
             </File>
           </Files>
         </Group>

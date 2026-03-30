@@ -65,8 +65,12 @@ void Error_Handler(void);
 #define I2C4_SCL_GPIO_Port GPIOF
 #define I2C4_SDA_Pin GPIO_PIN_15
 #define I2C4_SDA_GPIO_Port GPIOF
+#define GSV6715_INT_Pin GPIO_PIN_14
+#define GSV6715_INT_GPIO_Port GPIOD
 #define RESETB_Pin GPIO_PIN_4
 #define RESETB_GPIO_Port GPIOG
+
+/* USER CODE BEGIN Private defines */
 #define I2C0_SCL_MODER_Msk GPIO_MODER_MODER1_Msk
 #define I2C0_SCL_MODER_0 GPIO_MODER_MODER1_0
 #define I2C0_SCL_Pin GPIO_PIN_1
@@ -94,8 +98,6 @@ void Error_Handler(void);
 #define I2C1_SDA_GPIO_Port GPIOF
 #define I2C1_SDA_INPUT_PULLUP    (I2C1_SDA_GPIO_Port->MODER = (I2C1_SDA_GPIO_Port->MODER) & (~GPIO_MODER_MODER15_Msk))
 #define I2C1_SDA_OUTPUT_PUSHPULL (I2C1_SDA_GPIO_Port->MODER = (I2C1_SDA_GPIO_Port->MODER) | (GPIO_MODER_MODER15_0))
-/* USER CODE BEGIN Private defines */
-
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
