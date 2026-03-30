@@ -7,10 +7,63 @@
 #include "global_var.h"
 #include "SEGGER_RTT.h"
 
+#define _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS (1)
+
+#if _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS
+#define GSV6715_MAILBOX_I2C_ADDR (0xB0U)
+#define GSV6715_HDMI_INPUT_CABLE_STATUS_REG (0x07U)
+#define GSV6715_MAILBOX_POLL_INTERVAL_MS (200U)
+#define GSV6715_MAILBOX_I2C_TIMEOUT_MS (10U)
+#endif /* _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS */
+
+#if _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS
+extern I2C_HandleTypeDef hi2c1;
+#endif /* _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS */
+
 AvDevice gsv6k5_devices[Gsv6k5DeviceNumber];
 Gsv6k5Device gsv6k5_dev[Gsv6k5DeviceNumber];
 AvPort gsv6k5Ports[Gsv6k5DeviceNumber*Gsv6k5PortNumber];
+#if _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS
+uint8 gsv6715PortInfo;
+#endif /* _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS */
 
+#if _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS
+static void Gsv6715DebugReadInputCableStatus(void){
+  static uint8 gsv6715PortInfoValid;
+  static uint8 gsv6715LastPrintedPortInfo;
+  static uint32 gsv6715LastCableStatusPollMs;
+  HAL_StatusTypeDef readStatus;
+  uint8 portInfo = 0U;
+  uint32 nowMs = HAL_GetTick();
+
+  /* Avoid hammering I2C1/RTT in the fast main loop. */
+  if ((nowMs - gsv6715LastCableStatusPollMs) < GSV6715_MAILBOX_POLL_INTERVAL_MS){
+    return;
+  }
+  gsv6715LastCableStatusPollMs = nowMs;
+  readStatus = HAL_I2C_Mem_Read(&hi2c1,
+                                GSV6715_MAILBOX_I2C_ADDR,
+                                GSV6715_HDMI_INPUT_CABLE_STATUS_REG,
+                                I2C_MEMADD_SIZE_8BIT,
+                                &portInfo,
+                                1U,
+                                GSV6715_MAILBOX_I2C_TIMEOUT_MS);
+
+  if (readStatus != HAL_OK){
+    gsv6715PortInfoValid = 0U;
+    return;
+  }
+  gsv6715PortInfo = portInfo;
+
+  if (gsv6715PortInfoValid == 0U || gsv6715LastPrintedPortInfo != gsv6715PortInfo){
+    gsv6715PortInfoValid = 1U;
+    gsv6715LastPrintedPortInfo = gsv6715PortInfo;
+    SEGGER_RTT_printf(0,
+                      RTT_CTRL_TEXT_GREEN "GSV6715 HDMI Input Cable Status = 0x%02X\n" RTT_CTRL_RESET,
+                      gsv6715PortInfo);
+  }
+}
+#endif /* _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS */
 /**
  * @brief  sample main entry for audio/video based software
  * @return never return
@@ -205,6 +258,10 @@ AvPort gsv6k5Ports[Gsv6k5DeviceNumber*Gsv6k5PortNumber];
 
     /* 4. routine */
     /* call update api to enter into audio/video software loop */
+  if (HAL_I2C_IsDeviceReady(&hi2c1, 0xB0, 3, 10) != HAL_OK){
+    SEGGER_RTT_printf(0, RTT_CTRL_TEXT_RED "GSV6715 Mailbox I2C Device Not Ready at Startup\n" RTT_CTRL_RESET);
+    while (1);
+  }
   while (1){
     AvApiUpdate();
 #if (AvEnableThumbnail == 0)
@@ -221,5 +278,8 @@ AvPort gsv6k5Ports[Gsv6k5DeviceNumber*Gsv6k5PortNumber];
       SEGGER_RTT_printf(0, RTT_CTRL_TEXT_GREEN "GSV6715 Falling Edge Detected\n" RTT_CTRL_RESET);
     }
   #endif /* _DEBUG_GSV6715_EXTI */
+  #if _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS
+    Gsv6715DebugReadInputCableStatus();
+  #endif /* _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS */
   }
 }
