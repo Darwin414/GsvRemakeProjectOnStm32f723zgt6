@@ -20,5 +20,4 @@ project/MDK-ARM/RTE/Device/**/*.dbgconf.base@*
 *.hex
 !boot.hex
 /Agents
-/AGENTS.md
 /sync_vscode.sh
