@@ -47,5 +47,8 @@
 - CHANGELOG（简版）：
 -->
 
-（Codex 在此处写入/更新内容）
+### 关键约束/踩坑记录
+- `GSV6715_INT` 当前绑定在 `PD14`，CubeMX 配置为 `GPIO_MODE_IT_RISING_FALLING`，对应中断号为 `EXTI15_10_IRQn`。
+- 与 `GSV6715_INT` 相关的自动生成代码落点分别在 `project/Src/main.c` 的 `MX_GPIO_Init()`（NVIC 优先级与使能）和 `project/Src/stm32h7xx_it.c` 的 `EXTI15_10_IRQHandler()`（调用 `HAL_GPIO_EXTI_IRQHandler(GSV6715_INT_Pin)`）。
+- `project/MDK-ARM/project.uvprojx` 重新生成后容易出现大面积 XML 自闭合标签/格式化差异，并伴随 trailing whitespace；提交前建议单独确认是否存在真实工程配置变更。
 <!-- CODEX_EDITABLE_END -->

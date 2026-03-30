@@ -67,6 +67,7 @@ void Error_Handler(void);
 #define I2C4_SDA_GPIO_Port GPIOF
 #define GSV6715_INT_Pin GPIO_PIN_14
 #define GSV6715_INT_GPIO_Port GPIOD
+#define GSV6715_INT_EXTI_IRQn EXTI15_10_IRQn
 #define RESETB_Pin GPIO_PIN_4
 #define RESETB_GPIO_Port GPIOG
 
