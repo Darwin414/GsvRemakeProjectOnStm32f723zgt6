@@ -60,6 +60,7 @@
 - 现有大量 GSV 日志最终会经 `project/Drivers/Gsv650x/uapi/uapi.c` 的 `AvUapiOuputDbgMsg()` 聚合成最多 128 字节字符串后一次性调用 `AvUartTxByte()`；在 `bsp.c` 的 RTT 路径下，这会落到 `SEGGER_RTT_Write(0U, data, size)`。
 - 当前 `project/Drivers/Gsv650x/userapp/stm32f030c8_gsv6505_gsv_demo/apps/av_user_config_input.h` 同时开启了 `AvEnableDebugMessage=1` 和 `AvEnableDebugFsm=1`，会放大启动阶段和状态机切换阶段的 RTT 峰值日志量；若 RTT“显示不完”，应优先考虑降低日志源头和调整 RTT 非阻塞策略，而不是直接改成阻塞模式。
 - `Middlewares/ThirdParty/SEGGER/RTT/SEGGER_RTT.h` 已内置 ANSI 颜色控制宏，例如 `RTT_CTRL_TEXT_GREEN` 和 `RTT_CTRL_RESET`；在 RTT Viewer 支持 ANSI 控制码的前提下，可直接包裹 `SEGGER_RTT_printf()` 的字符串实现彩色日志，无需手写转义序列。
+- `SEGGER_RTT_TerminalOut(TerminalId, s)` 只接受已经格式化好的字符串，不支持 `printf` 风格可变参数；若某条带格式化参数的日志需要定向输出到指定 terminal，优先先用 `snprintf()` 写入本地缓冲区，再调用 `SEGGER_RTT_TerminalOut()`，这样不会改动当前 active terminal。
 - 若需在 `project/Drivers/Gsv650x/userapp/stm32f030c8_gsv6505_gsv_demo/apps/av_main.c` 中显式绕过 GSV 抽象层访问 GSV6715 mailbox，可直接声明 `extern I2C_HandleTypeDef hi2c1;`，再用 `HAL_I2C_Mem_Read(&hi2c1, 0xB0, 0x07, I2C_MEMADD_SIZE_8BIT, ...)` 读取 `HDMI Input Cable Status`。
 - `av_main.c` 的主循环很快；若直接在循环中每次都读 mailbox 并打印 RTT，很容易把 `I2C1` 和 RTT 输出刷爆。更稳妥的调试方式是加固定轮询周期，并且只在首次成功或读值变化时打印。
 <!-- CODEX_EDITABLE_END -->
