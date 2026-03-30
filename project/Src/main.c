@@ -44,7 +44,10 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+#if _DEBUG_GSV6715_EXTI
+uint8_t gsv6715Rising;
+uint8_t gsv6715Falling;
+#endif /* _DEBUG_GSV6715_EXTI */
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -90,6 +93,7 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
   SEGGER_RTT_Init();
+  SEGGER_RTT_printf(0, "Segger Rtt Initialized\n");
   HAL_GPIO_WritePin(RESETB_GPIO_Port, RESETB_Pin, GPIO_PIN_SET);
   for(i=0;i<0x3ffff;i++);
   HAL_GPIO_WritePin(RESETB_GPIO_Port, RESETB_Pin, GPIO_PIN_RESET);
@@ -223,7 +227,20 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+#if _DEBUG_GSV6715_EXTI
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 
+  if (GPIO_Pin == GSV6715_INT_Pin){
+
+    if (HAL_GPIO_ReadPin(GSV6715_INT_GPIO_Port, GSV6715_INT_Pin) == GPIO_PIN_SET){
+      gsv6715Rising = 1;
+    }
+    else {
+      gsv6715Falling = 1;
+    }
+  }
+}
+#endif /* _DEBUG_GSV6715_EXTI */
 /* USER CODE END 4 */
 
 /**

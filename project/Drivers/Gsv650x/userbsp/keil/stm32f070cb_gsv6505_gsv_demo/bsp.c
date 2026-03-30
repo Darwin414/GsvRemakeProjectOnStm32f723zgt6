@@ -118,8 +118,12 @@ AvRet BspUartGetByte(uint8 *data)
     if(UART_Receive(data,1) != HAL_OK)
         ret = AvError;
 #else
-    // if(HAL_UART_Receive(&huart1, data, 1, 0) != HAL_OK)
-    //     ret = AvError;
+    if (data == NULL){
+      ret = AvError;
+    }
+    else if (SEGGER_RTT_Read(0U, data, 1U) != 1U){
+      ret = AvError;
+    }
 #endif
     return ret;
 }

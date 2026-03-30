@@ -53,7 +53,12 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
+#define _DEBUG_GSV6715_EXTI (0)
 
+#if _DEBUG_GSV6715_EXTI
+extern uint8_t gsv6715Rising;
+extern uint8_t gsv6715Falling;
+#endif /* _DEBUG_GSV6715_EXTI */
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

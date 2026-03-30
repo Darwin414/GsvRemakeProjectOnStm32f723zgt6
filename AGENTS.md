@@ -48,7 +48,16 @@
 -->
 
 ### 关键约束/踩坑记录
+
 - `GSV6715_INT` 当前绑定在 `PD14`，CubeMX 配置为 `GPIO_MODE_IT_RISING_FALLING`，对应中断号为 `EXTI15_10_IRQn`。
 - 与 `GSV6715_INT` 相关的自动生成代码落点分别在 `project/Src/main.c` 的 `MX_GPIO_Init()`（NVIC 优先级与使能）和 `project/Src/stm32h7xx_it.c` 的 `EXTI15_10_IRQHandler()`（调用 `HAL_GPIO_EXTI_IRQHandler(GSV6715_INT_Pin)`）。
+- 该工程当前使用的 GPIO EXTI HAL 回调入口是 `HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)`；中断链路为 `EXTI15_10_IRQHandler()` -> `HAL_GPIO_EXTI_IRQHandler(GSV6715_INT_Pin)` -> `HAL_GPIO_EXTI_Callback(GPIO_Pin)`，用户逻辑应放在用户文件中重写该弱符号，而不是直接修改 HAL 驱动源码。
 - `project/MDK-ARM/project.uvprojx` 重新生成后容易出现大面积 XML 自闭合标签/格式化差异，并伴随 trailing whitespace；提交前建议单独确认是否存在真实工程配置变更。
+- `project/Drivers/Gsv650x/userapp/stm32f030c8_gsv6505_gsv_demo/apps/av_user_config_input.h` 当前开启了 `AvEnableUartInput=1`，而 `av_uart_cmd.c` 的 `ProcessChar()` 会在每次 `AvHalUartGetByte()` 返回成功后立刻把收到的字节回显到输出通道。
+- 若 RTT 模式下 `project/Drivers/Gsv650x/userbsp/keil/stm32f070cb_gsv6505_gsv_demo/bsp.c` 的 `BspUartGetByte()` 只是空实现却返回 `AvOk`，`ProcessChar()` 会在主循环中持续回显 `0x00`；现象是 RTT 终端几乎看不到文本，但接收端缓存/内存占用持续增长。
+- RTT 模式下若需要命令输入，`BspUartGetByte()` 应通过 `SEGGER_RTT_Read(0U, data, 1U)` 从 down-buffer 取字节；若不需要输入，应关闭 `AvEnableUartInput` 或确保无数据时返回 `AvError`。
+- 工程 RTT 配置文件位于 `Middlewares/ThirdParty/SEGGER/Config/SEGGER_RTT_Conf.h`，当前 `BUFFER_SIZE_UP=10240`、`BUFFER_SIZE_DOWN=16`、`SEGGER_RTT_PRINTF_BUFFER_SIZE=255`，默认模式为 `SEGGER_RTT_MODE_NO_BLOCK_SKIP`。
+- 现有大量 GSV 日志最终会经 `project/Drivers/Gsv650x/uapi/uapi.c` 的 `AvUapiOuputDbgMsg()` 聚合成最多 128 字节字符串后一次性调用 `AvUartTxByte()`；在 `bsp.c` 的 RTT 路径下，这会落到 `SEGGER_RTT_Write(0U, data, size)`。
+- 当前 `project/Drivers/Gsv650x/userapp/stm32f030c8_gsv6505_gsv_demo/apps/av_user_config_input.h` 同时开启了 `AvEnableDebugMessage=1` 和 `AvEnableDebugFsm=1`，会放大启动阶段和状态机切换阶段的 RTT 峰值日志量；若 RTT“显示不完”，应优先考虑降低日志源头和调整 RTT 非阻塞策略，而不是直接改成阻塞模式。
+- `Middlewares/ThirdParty/SEGGER/RTT/SEGGER_RTT.h` 已内置 ANSI 颜色控制宏，例如 `RTT_CTRL_TEXT_GREEN` 和 `RTT_CTRL_RESET`；在 RTT Viewer 支持 ANSI 控制码的前提下，可直接包裹 `SEGGER_RTT_printf()` 的字符串实现彩色日志，无需手写转义序列。
 <!-- CODEX_EDITABLE_END -->

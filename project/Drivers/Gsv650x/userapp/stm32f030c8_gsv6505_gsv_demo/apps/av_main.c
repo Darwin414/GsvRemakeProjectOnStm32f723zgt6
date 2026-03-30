@@ -5,6 +5,7 @@
  */
 #include "av_main.h"
 #include "global_var.h"
+#include "SEGGER_RTT.h"
 
 AvDevice gsv6k5_devices[Gsv6k5DeviceNumber];
 Gsv6k5Device gsv6k5_dev[Gsv6k5DeviceNumber];
@@ -204,12 +205,21 @@ AvPort gsv6k5Ports[Gsv6k5DeviceNumber*Gsv6k5PortNumber];
 
     /* 4. routine */
     /* call update api to enter into audio/video software loop */
-    while(1)
-    {
-        AvApiUpdate();
+  while (1){
+    AvApiUpdate();
 #if (AvEnableThumbnail == 0)
-      for(i=0;i<Gsv6k5DeviceNumber;i++)
-        AvPortConnectUpdate(&gsv6k5_devices[i]);
+    for(i=0;i<Gsv6k5DeviceNumber;i++)
+      AvPortConnectUpdate(&gsv6k5_devices[i]);
 #endif
+  #if _DEBUG_GSV6715_EXTI
+    if (gsv6715Rising){
+      gsv6715Rising = 0;
+      SEGGER_RTT_printf(0, RTT_CTRL_TEXT_GREEN "GSV6715 Rising Edge Detected\n" RTT_CTRL_RESET);
     }
+    if (gsv6715Falling){
+      gsv6715Falling = 0;
+      SEGGER_RTT_printf(0, RTT_CTRL_TEXT_GREEN "GSV6715 Falling Edge Detected\n" RTT_CTRL_RESET);
+    }
+  #endif /* _DEBUG_GSV6715_EXTI */
+  }
 }
