@@ -63,4 +63,5 @@
 - `SEGGER_RTT_TerminalOut(TerminalId, s)` 只接受已经格式化好的字符串，不支持 `printf` 风格可变参数；若某条带格式化参数的日志需要定向输出到指定 terminal，优先先用 `snprintf()` 写入本地缓冲区，再调用 `SEGGER_RTT_TerminalOut()`，这样不会改动当前 active terminal。
 - 若需在 `project/Drivers/Gsv650x/userapp/stm32f030c8_gsv6505_gsv_demo/apps/av_main.c` 中显式绕过 GSV 抽象层访问 GSV6715 mailbox，可直接声明 `extern I2C_HandleTypeDef hi2c1;`，再用 `HAL_I2C_Mem_Read(&hi2c1, 0xB0, 0x07, I2C_MEMADD_SIZE_8BIT, ...)` 读取 `HDMI Input Cable Status`。
 - `av_main.c` 的主循环很快；若直接在循环中每次都读 mailbox 并打印 RTT，很容易把 `I2C1` 和 RTT 输出刷爆。更稳妥的调试方式是加固定轮询周期，并且只在首次成功或读值变化时打印。
+- `project/Drivers/Gsv650x/userapp/stm32f030c8_gsv6505_gsv_demo/apps/av_main.c` 中若把 `static volatile uint8` 变量地址传给 `HAL_I2C_Mem_Write()` 这类形参为 `uint8_t *` 的 HAL 接口，ARMCC/armclang 会报 `#167-D`；根因不是 `uint8` 与 `uint8_t` 位宽不同，而是实参类型 `volatile uint8 *` 传参时丢失了 `volatile` 限定符。
 <!-- CODEX_EDITABLE_END -->

@@ -7,18 +7,23 @@
 #include "global_var.h"
 #include "SEGGER_RTT.h"
 
-#define _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS (1)
+#define _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS (0)
+#define _DEBUG_GSV6715_CHANNEL_SELECT (1)
 
-#if _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS
+#if _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS || _DEBUG_GSV6715_CHANNEL_SELECT
 #define GSV6715_MAILBOX_I2C_ADDR (0xB0U)
+#define GSV6715_MAILBOX_I2C_TIMEOUT_MS (10U)
+#endif /* _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS || _DEBUG_GSV6715_CHANNEL_SELECT */
+#if _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS
 #define GSV6715_HDMI_INPUT_CABLE_STATUS_REG (0xFF07U)
 #define GSV6715_MAILBOX_POLL_INTERVAL_MS (200U)
-#define GSV6715_MAILBOX_I2C_TIMEOUT_MS (10U)
 #endif /* _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS */
-
-#if _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS
+#if _DEBUG_GSV6715_CHANNEL_SELECT
+#define GSV6715_CHANNEL_SELECT_REG (0xFF05)
+#endif /* _DEBUG_GSV6715_CHANNEL_SELECT */
+#if _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS || _DEBUG_GSV6715_CHANNEL_SELECT
 extern I2C_HandleTypeDef hi2c1;
-#endif /* _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS */
+#endif /* _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS || _DEBUG_GSV6715_CHANNEL_SELECT */
 
 AvDevice gsv6k5_devices[Gsv6k5DeviceNumber];
 Gsv6k5Device gsv6k5_dev[Gsv6k5DeviceNumber];
@@ -64,6 +69,23 @@ static void Gsv6715DebugReadInputCableStatus(void){
   }
 }
 #endif /* _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS */
+#if _DEBUG_GSV6715_CHANNEL_SELECT
+static void Gsv6715DebugChannelSelect(void){
+  static volatile uint8 channelSelect;
+
+  if (channelSelect != 0){
+    HAL_I2C_Mem_Write(&hi2c1,
+                             GSV6715_MAILBOX_I2C_ADDR,
+                             GSV6715_CHANNEL_SELECT_REG,
+                             I2C_MEMADD_SIZE_16BIT,
+                             (uint8_t*)&channelSelect,
+                             1,
+                             GSV6715_MAILBOX_I2C_TIMEOUT_MS);
+    SEGGER_RTT_printf(0, "Channel Select Debug: Connected Rx to Port %d\n", channelSelect);
+    channelSelect = 0;
+  }
+}
+#endif /* _DEBUG_GSV6715_CHANNEL_SELECT */
 /**
  * @brief  sample main entry for audio/video based software
  * @return never return
@@ -257,11 +279,7 @@ static void Gsv6715DebugReadInputCableStatus(void){
     gsv6k5Ports[6].content.color->Hdr2SdrEnable = 1;
 
     /* 4. routine */
-    /* call update api to enter into audio/video software loop */
-  if (HAL_I2C_IsDeviceReady(&hi2c1, 0xB0, 3, 10) != HAL_OK){
-    SEGGER_RTT_printf(0, RTT_CTRL_TEXT_RED "GSV6715 Mailbox I2C Device Not Ready at Startup\n" RTT_CTRL_RESET);
-    while (1);
-  }
+  /* call update api to enter into audio/video software loop */
   while (1){
     AvApiUpdate();
 #if (AvEnableThumbnail == 0)
@@ -271,15 +289,18 @@ static void Gsv6715DebugReadInputCableStatus(void){
   #if _DEBUG_GSV6715_EXTI
     if (gsv6715Rising){
       gsv6715Rising = 0;
-      SEGGER_RTT_printf(0, RTT_CTRL_TEXT_GREEN "GSV6715 Rising Edge Detected\n" RTT_CTRL_RESET);
+      SEGGER_RTT_printf(0, "GSV6715 Rising Edge Detected\n");
     }
     if (gsv6715Falling){
       gsv6715Falling = 0;
-      SEGGER_RTT_printf(0, RTT_CTRL_TEXT_GREEN "GSV6715 Falling Edge Detected\n" RTT_CTRL_RESET);
+      SEGGER_RTT_printf(0, "GSV6715 Falling Edge Detected\n");
     }
   #endif /* _DEBUG_GSV6715_EXTI */
   #if _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS
     Gsv6715DebugReadInputCableStatus();
   #endif /* _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS */
+  #if _DEBUG_GSV6715_CHANNEL_SELECT
+    Gsv6715DebugChannelSelect();
+  #endif /* _DEBUG_GSV6715_CHANNEL_SELECT */
   }
 }
