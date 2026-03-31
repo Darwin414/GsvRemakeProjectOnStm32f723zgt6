@@ -6,7 +6,6 @@
 #include "av_main.h"
 #include "global_var.h"
 #include "SEGGER_RTT.h"
-#include <stdio.h>
 
 #define _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS (1)
 
@@ -33,7 +32,6 @@ static void Gsv6715DebugReadInputCableStatus(void){
   static uint8 gsv6715PortInfoValid;
   static uint8 gsv6715LastPrintedPortInfo;
   static uint32 gsv6715LastCableStatusPollMs;
-  char logBuffer[80];
   HAL_StatusTypeDef readStatus;
   uint8 portInfo = 0U;
   uint32 nowMs = HAL_GetTick();
@@ -60,11 +58,9 @@ static void Gsv6715DebugReadInputCableStatus(void){
   if (gsv6715PortInfoValid == 0U || gsv6715LastPrintedPortInfo != gsv6715PortInfo){
     gsv6715PortInfoValid = 1U;
     gsv6715LastPrintedPortInfo = gsv6715PortInfo;
-    snprintf(logBuffer,
-             sizeof(logBuffer),
-             RTT_CTRL_TEXT_GREEN "GSV6715 HDMI Input Cable Status = 0x%02X\n" RTT_CTRL_RESET,
-             gsv6715PortInfo);
-    SEGGER_RTT_TerminalOut(1, logBuffer);
+    SEGGER_RTT_printf(0,
+                      RTT_CTRL_TEXT_GREEN "GSV6715 HDMI Input Cable Status = 0x%02X\n" RTT_CTRL_RESET,
+                      gsv6715PortInfo);
   }
 }
 #endif /* _DEBUG_GSV6715_GET_INPUT_CABLE_STATUS */
